@@ -36,17 +36,41 @@ $(document).ready(function(){
         autoplayHoverPause:true        
     });
 
-    $('.chart').easyPieChart({
-        easing: 'easeInOut',
-        barColor: "#fff",
-        trackColor: false,
-        scaleColor: false,
-        lineWidth: 4, 
-        size: 152,
-        onStep: function(from, to, percent){
-            $(this.el).find('.percent').text(Math.round(percent));
-        }
 
+
+    var skillsTopOffset = $(".skillsSection").offset().top;
+    var statsTopOffset = $(".statsSection").offset().top;
+    var countUpFinished = false;
+
+    $(window).scroll(function(){
+        if(window.pageYOffset > skillsTopOffset - $(window).height()+200){
+            $('.chart').easyPieChart({
+                easing: 'easeInOut',
+                barColor: "#fff",
+                trackColor: false,
+                scaleColor: false,
+                lineWidth: 4, 
+                size: 152,
+                onStep: function(from, to, percent){
+                    $(this.el).find('.percent').text(Math.round(percent));
+                }
+            });
+        }
+        if(!countUpFinished && window.pageYOffset > statsTopOffset - $(window).height()){
+            $(".counter").each(function(){
+                var element = $(this);
+                var endVal = parseInt(element.text());
+        
+                element.countup(endVal);                
+            });
+            countUpFinished = true;
+        }
     });
+
+    
+
+
+
+
 
 });
